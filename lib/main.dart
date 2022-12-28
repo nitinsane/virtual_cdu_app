@@ -205,7 +205,7 @@ const double lineLine6Y = lineLine5Y + lineSpacingOffset;
 /// //////////////////
 //const double lineScratchBufX = 180;
 const double lineScratchBufY = 385;
-const double lineScratchBufWidth = 200;
+const double lineScratchBufWidth = 400;
 const double lineScratchBufHeight = 30;
 
 ////////////////////////////////////////////////
@@ -302,6 +302,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool inInitMode = true;
 
+  String backgroundImage = "assets/images/Virtual-CDU-777.png";
+  String greyBackgroundImage = "assets/images/boeing_grey.png";
+  String lightmapBackgroundImage = "assets/images/boeing_lightmap.png";
+  String brownBackgroundImage = "assets/images/boeing_brown.png";
+
   // constructor
   _MyHomePageState() {
     debugPrint("in myclassstate constructor");
@@ -312,6 +317,10 @@ class _MyHomePageState extends State<MyHomePage> {
     inputArray[lineLine2LeftTitleIndex] = "FG send Port";
     inputArray[lineLine2RightTitleIndex] = "FG recv  Port";
     inputArray[lineScratchBuffIndex] = "Getting IP Address";
+
+    inputArray[lineLine3LeftIndex] = "Grey";
+    inputArray[lineLine4LeftIndex] = "Brown";
+    inputArray[lineLine5LeftIndex] = "Lighted";
     //update();
 
     gettingIP().then((ip) {
@@ -377,9 +386,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Virtual-CDU-777.png"),
+            image: AssetImage(backgroundImage),
             fit: BoxFit.cover,
           ),
         ),
@@ -481,6 +490,15 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (button == "LSK2R") {
       inputArray[lineLine2RightIndex] = inputArray[lineScratchBuffIndex];
       inputArray[lineScratchBuffIndex] = "";
+      update();
+    } else if (button == "LSK3L") {
+      backgroundImage = greyBackgroundImage;
+      update();
+    } else if (button == "LSK4L") {
+      backgroundImage = brownBackgroundImage;
+      update();
+    } else if (button == "LSK5L") {
+      backgroundImage = lightmapBackgroundImage;
       update();
     } else if (button == "CLR") {
       // remove last character if there are any

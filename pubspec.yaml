@@ -65,6 +65,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/Virtual-CDU-777.png
+    - assets/images/boeing_grey.png
+    - assets/images/boeing_brown.png
+    - assets/images/boeing_lightmap.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
