@@ -54,17 +54,17 @@ class MyHomePage extends StatefulWidget {
 const skBackgroundColor = Colors.transparent;
 
 const double lskWidth = 50;
-const double lskHeight = 25;
+const double lskHeight = 30;
 
 const double lskLeftX = 10;
 const double lskRightX = 540;
 
-const double lskRow1Y = 105;
-const double lskRow2Y = 155;
-const double lskRow3Y = 205;
-const double lskRow4Y = 255;
-const double lskRow5Y = 305;
-const double lskRow6Y = 355;
+const double lskRow1Y = 115;
+const double lskRow2Y = 165;
+const double lskRow3Y = 210;
+const double lskRow4Y = 260;
+const double lskRow5Y = 310;
+const double lskRow6Y = 360;
 
 ///////////////////////////////////////////////
 ///  function keys
@@ -75,33 +75,33 @@ const double funcWidth = 70;
 const double funcHeight = 40;
 
 const double funcRow1Y = 475;
-const double funcRow2Y = 531;
-const double funcRow3Y = 588;
-const double funcRow4Y = 650;
+const double funcRow2Y = 535;
+const double funcRow3Y = 595;
+const double funcRow4Y = 660;
 
-const double funcCol1X = 55;
-const double funcCol2X = 140;
-const double funcCol3X = 215;
-const double funcCol4X = 290;
-const double funcCol5X = 365;
-const double funcCol6X = 460;
+const double funcCol1X = 60;
+const double funcCol2X = 135;
+const double funcCol3X = 210;
+const double funcCol4X = 285;
+const double funcCol5X = 360;
+const double funcCol6X = 465;
 
 /////////////////////////////////////////////////
 /// alpha keys
 ////////////////////////////////////////////////
 const alphaBackgroundColor = Colors.red;
 
-const double alphaWidth = 40;
+const double alphaWidth = 55;
 const double alphaHeight = 45;
 
-const double alphaRow1Y = 605;
-const double alphaRow2Y = 663;
-const double alphaRow3Y = 718;
-const double alphaRow4Y = 773;
-const double alphaRow5Y = 830;
-const double alphaRow6Y = 880;
+const double alphaRow1Y = 595;
+const double alphaRow2Y = 655;
+const double alphaRow3Y = 715;
+const double alphaRow4Y = 770;
+const double alphaRow5Y = 835;
+const double alphaRow6Y = 890;
 
-const double alphaCol1X = 240;
+const double alphaCol1X = 245;
 const double alphaCol2X = 305;
 const double alphaCol3X = 365;
 const double alphaCol4X = 427;
@@ -112,17 +112,17 @@ const double alphaCol5X = 490;
 ///////////////////////////////////////////////
 const numBackgroundColor = Colors.orange;
 
-const double numWidth = 40;
+const double numWidth = 50;
 const double numHeight = 45;
 
-const double numRow1Y = 725;
-const double numRow2Y = 780;
-const double numRow3Y = 835;
+const double numRow1Y = 715;
+const double numRow2Y = 775;
+const double numRow3Y = 830;
 const double numRow4Y = 890;
 
-const double numCol1X = 55;
-const double numCol2X = 115;
-const double numCol3X = 175;
+const double numCol1X = 60;
+const double numCol2X = 120;
+const double numCol3X = 185;
 
 /// display lines
 const Color lineBackgroundColor = Colors.black;
@@ -159,7 +159,7 @@ const double lineCenterRightColWidth = 50;
 const double lineLineSmallHeight = 0;
 const double lineLineSmallWidth = 0;
 
-const double lineColLeftX = 90;
+const double lineColLeftX = 95;
 const double lineColCenterX = 230;
 const double lineColCenterLeftX = 230;
 const double lineColCenterRightX = 320;
@@ -191,7 +191,7 @@ const double centerRightTextOffset = 100;
 
 const double lineSpacingOffset = 50;
 
-const double lineLine1Y = 85;
+const double lineLine1Y = 90;
 const double lineLine2Y = lineLine1Y + lineSpacingOffset;
 const double lineLine3Y = lineLine2Y + lineSpacingOffset;
 const double lineLine4Y = lineLine3Y + lineSpacingOffset;
@@ -310,26 +310,52 @@ class _MyHomePageState extends State<MyHomePage> {
   // constructor
   _MyHomePageState() {
     debugPrint("in myclassstate constructor");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setInitMode();
+
+    debugPrint("Getting IP Adress");
+    inputArray[lineScratchBuffIndex] = "Getting IP Address";
+
+    gettingIP().then((ip) {
+      debugPrint("IP => $ip");
+
+      if (ip != null) {
+        myIPAddress = ip;
+
+        inputArray[lineLine1RightIndex] = myIPAddress;
+        inputArray[lineScratchBuffIndex] = "";
+      } else {
+        inputArray[lineLine1RightIndex] = "ERROR";
+      }
+      update();
+    }).catchError((onError) {
+      debugPrint('Error getting IP ==> $onError');
+    });
+  }
+
+  // setInitMode
+  void setInitMode() {
+    inInitMode = true;
+
+    backgroundImage = brownBackgroundImage;
 
     inputArray[lineTitleIndex] = "CONFIG";
     inputArray[lineLine1RightTitleIndex] = "CDU IP Address";
     inputArray[lineLine1LeftTitleIndex] = "FG Address";
     inputArray[lineLine2LeftTitleIndex] = "FG send Port";
     inputArray[lineLine2RightTitleIndex] = "FG recv  Port";
-    inputArray[lineScratchBuffIndex] = "Getting IP Address";
 
     inputArray[lineLine3LeftIndex] = "Grey";
     inputArray[lineLine4LeftIndex] = "Brown";
     inputArray[lineLine5LeftIndex] = "Lighted";
-    //update();
 
-    gettingIP().then((ip) {
-      debugPrint("getting IP address");
-
-      inputArray[lineLine1RightIndex] = ip;
-      inputArray[lineScratchBuffIndex] = "";
-      update();
-    });
+    inputArray[lineLine1RightIndex] = myIPAddress;
+    inputArray[lineScratchBuffIndex] = "";
   }
 
 // read data over UDP
@@ -411,7 +437,7 @@ class _MyHomePageState extends State<MyHomePage> {
         height: height,
         width: width,
         child: Container(
-          color: lineBackgroundColor.withOpacity(0.5),
+          color: lineBackgroundColor.withOpacity(0.0),
           alignment: justify,
           child: Text(
             "$text",
@@ -448,6 +474,21 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
+  Widget renderLED(
+      leftOffset, rightOffset, height, width, Color bgColor, param) {
+    return (Positioned(
+      left: leftOffset,
+      top: rightOffset,
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: const Text(
+          "",
+        ),
+      ),
+    ));
+  }
+
 //////////////////////////////////////////////////////////////////
   void setInput(List<String> l) {
     bool isChanged = false;
@@ -469,7 +510,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void buttonPressed(String button) {
     debugPrint("button => $button");
 
-    if (inInitMode == false) {
+    if (inInitMode == false && button != "BtnProg") {
       // send the button directly to the FG
       sendData(button);
       return;
@@ -522,6 +563,10 @@ class _MyHomePageState extends State<MyHomePage> {
       });
 
       inInitMode = false;
+    } else if (button == "BtnProg") {
+      // use this unused button to send back to the initialization mode
+      setInitMode();
+      update();
     } else if (button == "0" ||
         button == "1" ||
         button == "2" ||
