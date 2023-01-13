@@ -459,7 +459,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: SizedBox(
         height: height,
         width: width,
-        child: ElevatedButton(
+        child: TextButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: bgColor.withOpacity(0.0),
           ),
